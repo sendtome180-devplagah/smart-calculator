@@ -8,9 +8,9 @@ def calculate(event):
     operation = document.querySelector("#operation").value
     result_div = document.querySelector("#lbl_result")
     
-    # التحقق من المدخلات
+    # التحقق من المدخلات الفراغية
     if not num1_input or not num2_input:
-        result_div.innerText = "خطأ: الرجاء إدخال أرقام صالحة"
+        result_div.innerText = "تنبيه: الرجاء إدخال الأرقام أولاً"
         return
 
     try:
@@ -33,11 +33,11 @@ def calculate(event):
             result = num1 / num2
             op_sign = "÷"
 
-        # عرض النتيجة مباشرة على الويب باتجاهها الصحيح
+        # عرض النتيجة مباشرة على الويب
         result_div.innerText = f"{num1} {op_sign} {num2} = {result}"
         
     except Exception as e:
-        result_div.innerText = "حدث خطأ غير متوقع"
+        result_div.innerText = "خطأ: الرجاء إدخال أرقام صالحة"
 
 # ربط زر الحساب في الويب بدالة البايثون عند الضغط كليك
 calculate_proxy = create_proxy(calculate)
