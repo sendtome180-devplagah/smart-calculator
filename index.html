@@ -132,10 +132,9 @@
                 opSign = "÷";
             }
 
-            // عرض النتيجة بالتنسيق والخط الأزرق الجميل
-            resultDiv.style.color = "#1E90FF";
-            resultDiv.innerText = num1 + " " + opSign + " " + num2 + " = " + result;
-        }
+        resultDiv.style.color = "#1E90FF";
+// قمنا بعكس الترتيب برمجياً وإضافة علامة تحكم غير مرئية لتجبر المتصفح على القراءة العربية الصحيحة
+resultDiv.innerText = "\u200F" + result + " = " + num2 + " " + opSign + " " + num1;
     </script>
 </body>
 </html>
