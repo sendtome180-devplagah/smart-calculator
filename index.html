@@ -1,28 +1,89 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الآلة الحاسبة الذكية</title>
-    <link rel="stylesheet" href="https://pyscript.net/releases/2024.1.1/core.css" />
-    <script type="module" src="https://pyscript.net/releases/2024.1.1/core.js"></script>
-    
     <style>
-        body { font-family: 'Arial', sans-serif; background-color: #f0f0f0; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 330px; text-align: center; }
-        h2 { color: #333; margin-bottom: 20px; font-size: 20px; }
-        label { display: block; margin: 10px 0 5px; font-size: 14px; color: #666; }
-        input, select { width: 100%; padding: 10px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 6px; box-sizing: border-box; text-align: center; font-size: 16px; }
-        button { width: 100%; padding: 12px; background-color: #4CAF50; color: white; border: none; border-radius: 6px; font-size: 16px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+        /* تنسيق الخلفية العامة للموقع بالوضع الداكن العصري */
+        body { 
+            font-family: 'Tahoma', 'Arial', sans-serif; 
+            background-color: #1e1e1e; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            height: 100vh; 
+            margin: 0; 
+        }
+        /* تنسيق هيكل الآلة الحاسبة (لوحة التصميم) */
+        .calculator { 
+            background: #2d2d2d; 
+            padding: 30px; 
+            border-radius: 16px; 
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3); 
+            width: 340px; 
+            text-align: center; 
+            border: 1px solid #3d3d3d;
+        }
+        h2 { color: #ffffff; margin-bottom: 25px; font-size: 20px; font-weight: bold; }
+        label { display: block; margin: 12px 0 6px; font-size: 13px; color: #aaaaaa; text-align: right; }
+        
+        /* تنسيق خانات الإدخال والقائمة المنسدلة بحواف دائرية */
+        input, select { 
+            width: 100%; 
+            padding: 12px; 
+            margin-bottom: 15px; 
+            background-color: #3b3b3b;
+            border: 1px solid #4d4d4d; 
+            border-radius: 8px; 
+            box-sizing: border-box; 
+            text-align: center; 
+            font-size: 16px; 
+            color: white;
+            outline: none;
+        }
+        input:focus { border-color: #4CAF50; }
+        
+        /* تنسيق زر الحساب التفاعلي بحوافه الناعمة */
+        button { 
+            width: 100%; 
+            padding: 14px; 
+            background-color: #4CAF50; 
+            color: white; 
+            border: none; 
+            border-radius: 8px; 
+            font-size: 16px; 
+            font-weight: bold; 
+            cursor: pointer; 
+            transition: background-color 0.3s; 
+            margin-top: 10px;
+        }
         button:hover { background-color: #45a049; }
-        .result { margin-top: 20px; font-size: 18px; font-weight: bold; color: blue; min-height: 25px; }
-        .credits { margin-top: 25px; font-size: 12px; color: #555; font-style: italic; border-top: 1px solid #eee; padding-top: 10px; }
+        
+        /* تنسيق النتيجة لتبدو مميزة ومعزولة رياضياً بالترتيب الصحيح */
+        .result { 
+            margin-top: 25px; 
+            font-size: 20px; 
+            font-weight: bold; 
+            color: #1E90FF; 
+            min-height: 30px; 
+            direction: ltr; /* إجبار المتصفح على عرض ترتيب المعادلة الرياضية بشكل صحيح */
+            unicode-bidi: bidi-override; /* منع المتصفح من خلط الترتيب التلقائي */
+        }
+        /* حقوق التصميم في الأسفل */
+        .credits { 
+            margin-top: 30px; 
+            font-size: 12px; 
+            color: #777777; 
+            border-top: 1px solid #3d3d3d; 
+            padding-top: 15px; 
+        }
     </style>
 </head>
 <body>
 
     <div class="calculator">
-        <h2>=== آلة حاسبة بايثون الذكية ===</h2>
+        <h2>=== الآلة الحاسبة الذكية ===</h2>
         
         <label>الرقم الأول:</label>
         <input type="number" id="num1" placeholder="أدخل الرقم الأول">
@@ -38,55 +99,51 @@
         <label>الرقم الثاني:</label>
         <input type="number" id="num2" placeholder="أدخل الرقم الثاني">
 
-        <button id="btn_calc">احسب النتيجة</button>
+        <button onclick="calculate()">احسب النتيجة</button>
 
         <div class="result" id="lbl_result"></div>
 
         <div class="credits">تصميم: أ. عبد الله علي المطرفي</div>
     </div>
 
-    <script type="py" target="Main">
-from pyscript import document
-from pyodide.ffi import create_proxy
+    <script>
+        function calculate() {
+            // جلب القيم من واجهة الـ HTML
+            let num1Input = document.getElementById("num1").value;
+            let num2Input = document.getElementById("num2").value;
+            let operation = document.getElementById("operation").value;
+            let resultDiv = document.getElementById("lbl_result");
+            
+            // التحقق من المدخلات الفراغية
+            if (num1Input === "" || num2Input === "") {
+                resultDiv.style.color = "#ff4444";
+                resultDiv.innerText = "تنبيه: الرجاء إدخال الأرقام أولاً";
+                return;
+            }
 
-def calculate(event):
-    num1_input = document.querySelector("#num1").value
-    num2_input = document.querySelector("#num2").value
-    operation = document.querySelector("#operation").value
-    result_div = document.querySelector("#lbl_result")
-    
-    if not num1_input or not num2_input:
-        result_div.innerText = "تنبيه: الرجاء إدخال الأرقام أولاً"
-        return
+            let num1 = parseFloat(num1Input);
+            let num2 = parseFloat(num2Input);
+            let result;
+            let opSign;
 
-    try:
-        num1 = float(num1_input)
-        num2 = float(num2_input)
-        
-        if operation == "+":
-            result = num1 + num2
-            op_sign = "+"
-        elif operation == "-":
-            result = num1 - num2
-            op_sign = "-"
-        elif operation == "*":
-            result = num1 * num2
-            op_sign = "×"
-        elif operation == "/":
-            if num2 == 0:
-                result_div.innerText = "خطأ: لا يمكن القسمة على صفر!"
-                return
-            result = num1 / num2
-            op_sign = "÷"
+            // إجراء العمليات الحسابية
+            if (operation === "+") { result = num1 + num2; opSign = "+"; }
+            else if (operation === "-") { result = num1 - num2; opSign = "-"; }
+            else if (operation === "*") { result = num1 * num2; opSign = "×"; }
+            else if (operation === "/") {
+                if (num2 === 0) {
+                    resultDiv.style.color = "#ff4444";
+                    resultDiv.innerText = "خطأ: لا يمكن القسمة على صفر!";
+                    return;
+                }
+                result = num1 / num2;
+                opSign = "÷";
+            }
 
-        result_div.innerText = f"{num1} {op_sign} {num2} = {result}"
-        
-    except Exception as e:
-        result_div.innerText = "خطأ: الرجاء إدخال أرقام صالحة"
-
-# ربط الزر بالدالة بالشكل الصحيح والمباشر
-calculate_proxy = create_proxy(calculate)
-document.querySelector("#btn_calc").addEventListener("click", calculate_proxy)
+            // عرض النتيجة بالتنسيق والخط الأزرق الجميل
+            resultDiv.style.color = "#1E90FF";
+            resultDiv.innerText = num1 + " " + opSign + " " + num2 + " = " + result;
+        }
     </script>
 </body>
 </html>
