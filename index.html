@@ -45,7 +45,7 @@
         <div class="credits">تصميم: أ. عبد الله علي المطرفي</div>
     </div>
 
-    <script type="py" config='{"interpreter": "pyodide"}'>
+    <script type="py" target="Main">
 from pyscript import document
 from pyodide.ffi import create_proxy
 
@@ -84,6 +84,7 @@ def calculate(event):
     except Exception as e:
         result_div.innerText = "خطأ: الرجاء إدخال أرقام صالحة"
 
+# ربط الزر بالدالة بالشكل الصحيح والمباشر
 calculate_proxy = create_proxy(calculate)
 document.querySelector("#btn_calc").addEventListener("click", calculate_proxy)
     </script>
