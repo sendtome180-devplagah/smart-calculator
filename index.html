@@ -5,7 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الآلة الحاسبة الذكية</title>
     <style>
-        /* تنسيق الخلفية العامة للموقع بالوضع الداكن العصري */
         body { 
             font-family: 'Tahoma', 'Arial', sans-serif; 
             background-color: #1e1e1e; 
@@ -15,7 +14,6 @@
             height: 100vh; 
             margin: 0; 
         }
-        /* تنسيق هيكل الآلة الحاسبة (لوحة التصميم) */
         .calculator { 
             background: #2d2d2d; 
             padding: 30px; 
@@ -28,7 +26,6 @@
         h2 { color: #ffffff; margin-bottom: 25px; font-size: 20px; font-weight: bold; }
         label { display: block; margin: 12px 0 6px; font-size: 13px; color: #aaaaaa; text-align: right; }
         
-        /* تنسيق خانات الإدخال والقائمة المنسدلة بحواف دائرية */
         input, select { 
             width: 100%; 
             padding: 12px; 
@@ -44,7 +41,6 @@
         }
         input:focus { border-color: #4CAF50; }
         
-        /* تنسيق زر الحساب التفاعلي بحوافه الناعمة */
         button { 
             width: 100%; 
             padding: 14px; 
@@ -60,15 +56,21 @@
         }
         button:hover { background-color: #45a049; }
         
-        /* الكود الجديد المطور - ضعه مكانه */
+        /* تم تنظيف هذا الجزء تماماً ليعمل بالتوافق مع لغة الويب الطبيعية */
         .result { 
             margin-top: 25px; 
-            font-size: 20px; 
+            font-size: 22px; 
             font-weight: bold; 
             color: #1E90FF; 
             min-height: 30px; 
-            direction: ltr; 
-            display: inline-block;
+        }
+        
+        .credits { 
+            margin-top: 30px; 
+            font-size: 12px; 
+            color: #777777; 
+            border-top: 1px solid #3d3d3d; 
+            padding-top: 15px; 
         }
     </style>
 </head>
@@ -100,13 +102,11 @@
 
     <script>
         function calculate() {
-            // جلب القيم من واجهة الـ HTML
             let num1Input = document.getElementById("num1").value;
             let num2Input = document.getElementById("num2").value;
             let operation = document.getElementById("operation").value;
             let resultDiv = document.getElementById("lbl_result");
             
-            // التحقق من المدخلات الفراغية
             if (num1Input === "" || num2Input === "") {
                 resultDiv.style.color = "#ff4444";
                 resultDiv.innerText = "تنبيه: الرجاء إدخال الأرقام أولاً";
@@ -118,7 +118,6 @@
             let result;
             let opSign;
 
-            // إجراء العمليات الحسابية
             if (operation === "+") { result = num1 + num2; opSign = "+"; }
             else if (operation === "-") { result = num1 - num2; opSign = "-"; }
             else if (operation === "*") { result = num1 * num2; opSign = "×"; }
@@ -132,9 +131,11 @@
                 opSign = "÷";
             }
 
-        resultDiv.style.color = "#1E90FF";
-// قمنا بعكس الترتيب برمجياً وإضافة علامة تحكم غير مرئية لتجبر المتصفح على القراءة العربية الصحيحة
-resultDiv.innerText = "\u200F" + result + " = " + num2 + " " + opSign + " " + num1;
+            resultDiv.style.color = "#1E90FF";
+            
+            // الحل الهندسي الأبسط: صياغة النتيجة مقسمة بشكل صريح ليفهم المتصفح العربي اتجاهها تلقائياً
+            resultDiv.innerText = result + " = " + num2 + " " + opSign + " " + num1;
+        }
     </script>
 </body>
 </html>
