@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -23,8 +23,8 @@
             text-align: center; 
             border: 1px solid #3d3d3d;
         }
-        h2 { color: #ffffff; margin-bottom: 25px; font-size: 20px; font-weight: bold; }
-        label { display: block; margin: 12px 0 6px; font-size: 13px; color: #aaaaaa; text-align: right; }
+        h2 { color: #ffffff; margin-bottom: 25px; font-size: 20px; font-weight: bold; text-align: center; direction: rtl; }
+        label { display: block; margin: 12px 0 6px; font-size: 13px; color: #aaaaaa; text-align: right; direction: rtl; }
         
         input, select { 
             width: 100%; 
@@ -53,16 +53,21 @@
             cursor: pointer; 
             transition: background-color 0.3s; 
             margin-top: 10px;
+            direction: rtl;
         }
         button:hover { background-color: #45a049; }
         
-        /* تم تنظيف هذا الجزء تماماً ليعمل بالتوافق مع لغة الويب الطبيعية */
-        .result { 
-            margin-top: 25px; 
-            font-size: 22px; 
-            font-weight: bold; 
-            color: #1E90FF; 
-            min-height: 30px; 
+        /* التنسيق السحري: تم عزل صندوق النتيجة ليعامل الأرقام والرموز بشكل كلاسيكي مستقيم لمنع المتصفح من بعثرتها */
+        .result-box {
+            margin-top: 25px;
+            min-height: 30px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 8px; /* يعطي مسافة جمالية ثابتة بين الأرقام والرموز */
+            font-size: 22px;
+            font-weight: bold;
+            color: #1E90FF;
         }
         
         .credits { 
@@ -71,6 +76,7 @@
             color: #777777; 
             border-top: 1px solid #3d3d3d; 
             padding-top: 15px; 
+            direction: rtl;
         }
     </style>
 </head>
@@ -95,7 +101,7 @@
 
         <button onclick="calculate()">احسب النتيجة</button>
 
-        <div class="result" id="lbl_result"></div>
+        <div class="result-box" id="lbl_result"></div>
 
         <div class="credits">تصميم: أ. عبد الله علي المطرفي</div>
     </div>
@@ -109,7 +115,7 @@
             
             if (num1Input === "" || num2Input === "") {
                 resultDiv.style.color = "#ff4444";
-                resultDiv.innerText = "تنبيه: الرجاء إدخال الأرقام أولاً";
+                resultDiv.innerHTML = "<span style='font-size:16px; direction:rtl;'>تنبيه: الرجاء إدخال الأرقام أولاً</span>";
                 return;
             }
 
@@ -124,7 +130,7 @@
             else if (operation === "/") {
                 if (num2 === 0) {
                     resultDiv.style.color = "#ff4444";
-                    resultDiv.innerText = "خطأ: لا يمكن القسمة على صفر!";
+                    resultDiv.innerHTML = "<span style='font-size:16px; direction:rtl;'>خطأ: لا يمكن القسمة على صفر!</span>";
                     return;
                 }
                 result = num1 / num2;
@@ -133,9 +139,16 @@
 
             resultDiv.style.color = "#1E90FF";
             
-            // الحل الهندسي الأبسط: صياغة النتيجة مقسمة بشكل صريح ليفهم المتصفح العربي اتجاهها تلقائياً
-      // صياغة النتيجة في جملة عربية صريحة وموزعة لتجبر المتصفح على القراءة الصحيحة من اليمين تماماً
-resultDiv.innerHTML = "ناتج عملية الحساب هو: " + result;
+            /* هنا تم تفكيك المعادلة إلى قطع منفصلة تماماً (مربعات صغيرة بجانب بعضها) */
+            /* هذا التصميم الذكي يحرم المتصفح من فرصة قلب أو خلط الرموز ويجبرها على الظهور بالترتيب العربي المطلق */
+            resultDiv.innerHTML = `
+                <span>${num1}</span>
+                <span>${opSign}</span>
+                <span>${num2}</span>
+                <span>=</span>
+                <span>${result}</span>
+            `;
+        }
     </script>
 </body>
 </html>
