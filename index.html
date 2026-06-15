@@ -57,17 +57,18 @@
         }
         button:hover { background-color: #45a049; }
         
-        /* التنسيق السحري: تم عزل صندوق النتيجة ليعامل الأرقام والرموز بشكل كلاسيكي مستقيم لمنع المتصفح من بعثرتها */
+        /* ضبط صندوق النتيجة ليرص العناصر بصرياً من اليمين إلى اليسار تلقائياً */
         .result-box {
             margin-top: 25px;
             min-height: 30px;
             display: flex;
             justify-content: center;
             align-items: center;
-            gap: 8px; /* يعطي مسافة جمالية ثابتة بين الأرقام والرموز */
+            gap: 8px; 
             font-size: 22px;
             font-weight: bold;
             color: #1E90FF;
+            direction: rtl; /* إجبار الترتيب البصري أن يبدأ من اليمين للعين */
         }
         
         .credits { 
@@ -108,21 +109,21 @@
 
     <script>
         function calculate() {
-            let num1Input = document.getElementById("num1").value;
-            let num2Input = document.getElementById("num2").value;
-            let operation = document.getElementById("operation").value;
-            let resultDiv = document.getElementById("lbl_result");
+            var num1Input = document.getElementById("num1").value;
+            var num2Input = document.getElementById("num2").value;
+            var operation = document.getElementById("operation").value;
+            var resultDiv = document.getElementById("lbl_result");
             
             if (num1Input === "" || num2Input === "") {
                 resultDiv.style.color = "#ff4444";
-                resultDiv.innerHTML = "<span style='font-size:16px; direction:rtl;'>تنبيه: الرجاء إدخال الأرقام أولاً</span>";
+                resultDiv.innerHTML = "تنبيه: الرجاء إدخال الأرقام أولاً";
                 return;
             }
 
-            let num1 = parseFloat(num1Input);
-            let num2 = parseFloat(num2Input);
-            let result;
-            let opSign;
+            var num1 = parseFloat(num1Input);
+            var num2 = parseFloat(num2Input);
+            var result;
+            var opSign;
 
             if (operation === "+") { result = num1 + num2; opSign = "+"; }
             else if (operation === "-") { result = num1 - num2; opSign = "-"; }
@@ -130,7 +131,7 @@
             else if (operation === "/") {
                 if (num2 === 0) {
                     resultDiv.style.color = "#ff4444";
-                    resultDiv.innerHTML = "<span style='font-size:16px; direction:rtl;'>خطأ: لا يمكن القسمة على صفر!</span>";
+                    resultDiv.innerHTML = "خطأ: لا يمكن القسمة على صفر!";
                     return;
                 }
                 result = num1 / num2;
@@ -139,17 +140,9 @@
 
             resultDiv.style.color = "#1E90FF";
             
-            /* هنا تم تفكيك المعادلة إلى قطع منفصلة تماماً (مربعات صغيرة بجانب بعضها) */
-            /* هذا التصميم الذكي يحرم المتصفح من فرصة قلب أو خلط الرموز ويجبرها على الظهور بالترتيب العربي المطلق */
-            /* الكود الجديد والمعدل بلمحة بصرية مريحة */
-           /* قمنا بعكس العناصر برمجياً لتظهر لعينك من اليمين لليسار تماماً كما طلبت */
-            resultDiv.innerHTML = `
-                <span>${result}</span>
-                <span>=</span>
-                <span>${num2}</span>
-                <span>${opSign}</span>
-                <span>${num1}</span>
-            `;
+            /* الصياغة الكلاسيكية الآمنة: رص المربعات بالترتيب الطبيعي الذي تطلبه */
+            resultDiv.innerHTML = "<span>" + num1 + "</span> <span>" + opSign + "</span> <span>" + num2 + "</span> <span>=</span> <span>" + result + "</span>";
+        }
     </script>
 </body>
 </html>
